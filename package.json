@@ -1,6 +1,6 @@
 {
-  "name": "jsip",
-  "version": "1.0.0",
+  "name": "react-jssip-wrapper",
+  "version": "1.0.1",
   "description": "jssip react wrapper",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -27,7 +27,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gapon2401/my-react-typescript-package.git"
+    "url": "git+https://github.com/JasurbekYuldashov/jsip"
   },
   "peerDependencies": {
     "react": ">=16"
