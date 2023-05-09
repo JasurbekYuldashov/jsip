@@ -1,4 +1,4 @@
-# React SIP
+# React JsSIP Wrapper
 
 [![npm version](https://img.shields.io/npm/v/react-sip.svg)](https://www.npmjs.com/package/react-jssip-wrapper)
 [![npm downloads](https://img.shields.io/npm/dy/react-sip.svg)](https://www.npmjs.com/package/react-jssip-wrapper)
