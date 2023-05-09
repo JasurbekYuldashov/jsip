@@ -1,6 +1,6 @@
 {
   "name": "react-jssip-wrapper",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "jssip react wrapper",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -23,7 +23,9 @@
     "sip",
     "jssip",
     "sip.js",
-    "react-sip"
+    "react-sip",
+    "pbx",
+    "onlibepbx"
   ],
   "repository": {
     "type": "git",

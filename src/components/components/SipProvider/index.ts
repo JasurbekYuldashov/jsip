@@ -178,7 +178,9 @@ export default class SipProvider extends React.Component<
       this.state.rtcSession !== prevState?.rtcSession ||
       this.state.callCounterpart !== prevState.callCounterpart ||
       this.state.callDirection !== prevState.callDirection ||
-      this.state?.rtcSession?._start_time !== prevState?.rtcSession?._start_time
+      this.state.callStatus !== prevState.callStatus ||
+      this.state?.rtcSession?._start_time !== prevState?.rtcSession?._start_time ||
+      JSON.stringify(this.state) !== JSON.stringify(prevState)
     ) {
       this.props.setAction(this.state)
     }

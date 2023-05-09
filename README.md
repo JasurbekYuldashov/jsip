@@ -21,6 +21,7 @@ import App from './components/App';
 
 ReactDOM.render(
   <SipProvider
+    ref={ref} // For get jssip proporties and other functions
     host="sip.example.com"
     port={7443}
     pathname="/ws" // Path in socket URI (e.g. wss://sip.example.com:7443/ws); "" by default
@@ -34,14 +35,12 @@ ReactDOM.render(
       register: ['X-Foo: foo', 'X-Bar: bar'],
       invite: ['X-Foo: foo2', 'X-Bar: bar2']
     }}
-
     debug={false} // whether to output events to console; false by default
     setAction={setAction} // const [action,setAction] = useState()
     iceServers={[ // optional but recommended
         {
           urls: [
-            "stun:stun.l.google.c
-om:19302",
+            "stun:stun.l.google.com:19302",
             "stun:stun1.l.google.com:19302",
           ],
         },
@@ -110,7 +109,7 @@ An overview is given below:
 
 `call.counterpart` represents the call _destination_ in case of outgoing call and _caller_ for
 incoming calls.
-The format depends on the configuration of the SIP server (e.g. `"bob" <+441234567890@sip.example.com>`, `+441234567890@sip.example.com` or `bob@sip.example.com`).
+The format depends on the configuration of the SIP server (e.g. `"bob" <+998945667725@sip.example.com>`, `+998945667725@sip.example.com` or `Jasurbek@sip.example.com`).
 
 ### methods
 
@@ -122,7 +121,7 @@ To make calls, simply use these functions:
 - `startCall(destination)`
 - `stopCall()`
 
-The value for `destination` argument equals to the target SIP user without the host part (e.g. `+441234567890` or `bob`).
+The value for `destination` argument equals to the target SIP user without the host part (e.g. `+998945667725` or `bob`).
 The omitted host part is equal to host you’ve defined in `SipProvider` props (e.g. `sip.example.com`).
 
 ---
