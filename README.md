@@ -1,8 +1,4 @@
 # React JsSIP Wrapper
-
-[![npm version](https://img.shields.io/npm/v/react-sip.svg)](https://www.npmjs.com/package/react-jssip-wrapper)
-[![npm downloads](https://img.shields.io/npm/dy/react-sip.svg)](https://www.npmjs.com/package/react-jssip-wrapper)
-
 React wrapper for [jssip](https://github.com/versatica/JsSIP).
 
 ## Installation
@@ -16,40 +12,69 @@ There is no need to install `jssip` as it is a dependency of `react-jssip-wrappe
 ## Usage
 
 ```js
-import { SipProvider } from 'react-jssip-wrapper';
-import App from './components/App';
+import React, { useCallback, useRef } from "react";
+import { SipProvider } from "react-jssip-wrapper";
+import { IStore, setSip } from "store";
+import { useDispatch, useSelector } from "react-redux";
 
-ReactDOM.render(
-  <SipProvider
-    ref={ref} // For get jssip proporties and other functions
-    host="sip.example.com"
-    port={7443}
-    pathname="/ws" // Path in socket URI (e.g. wss://sip.example.com:7443/ws); "" by default
-    user="alice"
-    password={sipPassword} // usually required (e.g. from ENV or props)
-    autoRegister={true} // true by default, see jssip.UA option register
-    autoAnswer={false} // automatically answer incoming calls; false by default
-    iceRestart={false} // force ICE session to restart on every WebRTC call; false by default
-    sessionTimersExpires={120} // value for Session-Expires header; 120 by default
-    extraHeaders={{ // optional sip headers to send
-      register: ['X-Foo: foo', 'X-Bar: bar'],
-      invite: ['X-Foo: foo2', 'X-Bar: bar2']
-    }}
-    debug={false} // whether to output events to console; false by default
-    setAction={setAction} // const [action,setAction] = useState()
-    iceServers={[ // optional but recommended
-        {
-          urls: [
-            "stun:stun.l.google.com:19302",
-            "stun:stun1.l.google.com:19302",
-          ],
-        },
-      ]}
-  >
-    <App />
-  </SipProvider>
-  document.getElementById('root'),
-);
+const Sip = () => {
+  const dispatch = useDispatch();
+  const ref = useRef<any>();
+  const connectionConfig = useSelector(
+    (state: IStore) => state.sip.connectionConfig
+  );
+
+  const onRefChange = useCallback((node: any) => {
+    if (node === null) {
+      // DOM node referenced by ref has been unmounted
+    } else {
+      dispatch(setSip({ ref: node }));
+      ref.current = node;
+    }
+  }, []);
+
+  if (!connectionConfig) {
+    return null;
+  }
+
+  // const call = () =>
+  //   ref.current?.startCall(`sip:${phone}@${connectionConfig.server}`);
+  //
+  // const transfer = () => {
+  //   ref.current?.state?.rtcSession?.refer(
+  //     `sip:${transferPhone}@${connectionConfig.server}`
+  //   );
+  // };
+
+  return (
+      <SipProvider
+        host={connectionConfig.server as string}
+        port={7443}
+        pathname="" // Path in socket URI (e.g. wss://sip.example.com:7443/ws); "" by default
+        user={connectionConfig.user as string}
+        password={connectionConfig.password as string} // usually required (e.g. from ENV or props)
+        autoRegister={false} // true by default, see jssip.UA option register
+        // autoAnswer={true} // automatically answer incoming calls; false by default
+        iceRestart={true} // force ICE session to restart on every WebRTC call; false by default
+        sessionTimersExpires={30000}
+        debug={false} // wh
+        ref={onRefChange}
+        iceServers={[
+          {
+            urls: [
+              "stun:stun.l.google.com:19302",
+              "stun:stun1.l.google.com:19302",
+            ],
+          },
+        ]}
+        setAction={(data: any) => {
+          dispatch(setSip({ ...data, ref: ref.current }));
+        }}
+      />
+  );
+};
+
+export default Sip;
 ```
 
 Child components get access to this context:

@@ -406,7 +406,7 @@ export default class SipProvider extends React.Component<
       if (!this || this.ua !== ua) {
         return
       }
-      console.log(originator, rtcRequest, rtcSession)
+      // console.log(originator, rtcRequest, rtcSession)
 
       // identify call direction
       if (originator === 'local') {
