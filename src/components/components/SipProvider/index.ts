@@ -43,6 +43,7 @@ export default class SipProvider extends React.Component<
     iceServers: IceServers
     debug: boolean
     setAction: (data: any) => void
+    audioId?: string
   },
   {
     sipStatus: SipStatus
@@ -97,6 +98,7 @@ export default class SipProvider extends React.Component<
     debug: false,
 
     children: null,
+    audioId: 'sip-provider-audio',
   }
   private ua: any
   private remoteAudio: any
@@ -144,7 +146,7 @@ export default class SipProvider extends React.Component<
   }
 
   public componentDidMount() {
-    if (window.document.getElementById('sip-provider-audio')) {
+    if (window.document.getElementById(this.props.audioId || 'sip-provider-audio')) {
       throw new Error(
         `Creating two SipProviders in one application is forbidden. If that's not the case ` +
           `then check if you're using "sip-provider-audio" as id attribute for any existing ` +
@@ -153,7 +155,7 @@ export default class SipProvider extends React.Component<
     }
 
     this.remoteAudio = window.document.createElement('audio')
-    this.remoteAudio.id = 'sip-provider-audio'
+    this.remoteAudio.id = this.props.audioId || 'sip-provider-audio'
     window.document.body.appendChild(this.remoteAudio)
 
     this.reconfigureDebug()
