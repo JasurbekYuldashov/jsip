@@ -79,8 +79,9 @@ export default class SipProvider extends React.Component<
     extraHeaders: extraHeadersPropType,
     iceServers: iceServersPropType,
     debug: PropTypes.bool,
-
     children: PropTypes.node,
+    audioId: PropTypes.string,
+    setAction: PropTypes.func,
   }
 
   public static defaultProps = {
@@ -96,7 +97,6 @@ export default class SipProvider extends React.Component<
     extraHeaders: { register: [], invite: [] },
     iceServers: [],
     debug: false,
-
     children: null,
     audioId: 'sip-provider-audio',
   }
