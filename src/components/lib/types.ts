@@ -49,7 +49,7 @@ export const sipPropType = PropTypes.shape({
   extraHeaders: extraHeadersPropType,
   iceServers: iceServersPropType,
   debug: PropTypes.bool,
-  audioId?: PropTypes.string,
+  audioId: PropTypes.string,
 });
 
 export interface Call {
