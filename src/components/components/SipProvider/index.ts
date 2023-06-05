@@ -182,7 +182,7 @@ export default class SipProvider extends React.Component<
       this.state.callDirection !== prevState.callDirection ||
       this.state.callStatus !== prevState.callStatus ||
       this.state?.rtcSession?._start_time !== prevState?.rtcSession?._start_time ||
-      JSON.stringify(this.state) !== JSON.stringify(prevState)
+      JSON.stringify(this.state || {}) !== JSON.stringify(prevState || {})
     ) {
       this.props.setAction(this.state)
     }
@@ -287,6 +287,40 @@ export default class SipProvider extends React.Component<
       JsSIP.debug.disable()
       this.logger = dummyLogger
     }
+  }
+
+  public getNewConnection(): JsSIP.UA {
+    let ua: JsSIP.UA
+    const { host, port, pathname, user, password, autoRegister } = this.props
+
+    if (!host || !port || !user) {
+      this.setState({
+        sipStatus: SIP_STATUS_DISCONNECTED,
+        sipErrorType: null,
+        sipErrorMessage: null,
+      })
+      throw new Error('Invalid host or port!')
+    }
+
+    try {
+      const socket = new JsSIP.WebSocketInterface(`wss://${host}:${port}${pathname}`)
+      ua = new JsSIP.UA({
+        uri: `sip:${user}@${host}`,
+        password,
+        sockets: [socket],
+        register: autoRegister,
+      })
+    } catch (error: any) {
+      this.logger.debug('Error', error.message, error)
+      this.setState({
+        sipStatus: SIP_STATUS_ERROR,
+        sipErrorType: SIP_ERROR_TYPE_CONFIGURATION,
+        sipErrorMessage: error.message,
+      })
+      throw new Error(error.message)
+    }
+
+    return ua
   }
 
   public reinitializeJsSIP() {

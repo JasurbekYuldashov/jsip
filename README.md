@@ -70,6 +70,7 @@ const Sip = () => {
         setAction={(data: any) => {
           dispatch(setSip({ ...data, ref: ref.current }));
         }}
+        audioId="newAudioId" // default 'sip-provider-audio' for output audio
       />
   );
 };
