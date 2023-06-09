@@ -1,5 +1,6 @@
 # React JsSIP Wrapper
 React wrapper for [jssip](https://github.com/versatica/JsSIP).
+For discussion [TelegramGroup](https://t.me/react_jssip_wrapper)
 
 ## Installation
 
